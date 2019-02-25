@@ -31,6 +31,8 @@ jobs:
 - name: Build Image
   plan:
   - get: commit
+    passed:
+      - Build App
     trigger: true
   - task: Build
     config:
@@ -38,7 +40,8 @@ jobs:
       image_resource:
         type: docker-image
         source:
-          repository: dind
+          repository: docker
+          tag: dind
       inputs:
       - name: commit
       run:
