@@ -4,7 +4,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const outputDirectory = 'dist';
 
-module.exports = env => ({
+const config = {
   entry: ['babel-polyfill', './src/client/index.js'],
   output: {
     path: path.join(__dirname, outputDirectory),
@@ -29,13 +29,6 @@ module.exports = env => ({
       }
     ]
   },
-  devServer: {
-    port: env.PORT,
-    open: false,
-    proxy: {
-      '/api': env.API_URL
-    }
-  },
   plugins: [
     new CleanWebpackPlugin([outputDirectory]),
     new HtmlWebpackPlugin({
@@ -43,4 +36,18 @@ module.exports = env => ({
       favicon: './public/favicon.ico'
     })
   ]
-});
+};
+
+module.exports = (env, argv) => {
+  if (argv.mode === 'development') {
+    config.devServer = {
+      port: env.PORT || 3030,
+      open: false,
+      proxy: {
+        '/api': env.API_URL
+      }
+    };
+  }
+
+  return config;
+};
