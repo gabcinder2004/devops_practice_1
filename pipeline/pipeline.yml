@@ -5,7 +5,7 @@ resources:
   source:
     from: gabriel@nunez.com
 - name: commit
-  type: github-release
+  type: git
   source:
     repository: devops_practice_1
     access_token: {{github-access-token}}
