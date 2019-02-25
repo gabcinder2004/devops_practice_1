@@ -25,6 +25,9 @@ jobs:
       - name: commit
       run:
         path: commit/pipeline/build-app.sh
+      params:
+        PORT: 3030
+        API_URL: http://localhost:8080
 
 - name: Run Tests
   plan:
