@@ -21,6 +21,8 @@ jobs:
         type: docker-image
         source:
           repository: node
+      inputs:
+      - name: commit
       run:
         path: commit/pipeline/build-app.sh
 

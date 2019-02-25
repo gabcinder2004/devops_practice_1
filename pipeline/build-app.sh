@@ -1,4 +1,5 @@
 #!/bin/sh
+ls -la
 npm install
 npm run build
 
