@@ -28,12 +28,26 @@ jobs:
       params:
         PORT: 3030
         API_URL: http://localhost:8080
-
+- name: Build Image
+  plan:
+  - get: commit
+    trigger: true
+  - task: Build
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: dind
+      inputs:
+      - name: commit
+      run:
+        path: commit/pipeline/build-image.sh
 - name: Run Tests
   plan:
   - get: commit
     passed:
-      - Build App
+      - Build Image
     trigger: true
   - task: do-your-test-task-here
     config:

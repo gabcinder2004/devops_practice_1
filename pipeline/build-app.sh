@@ -1,5 +1,4 @@
 #!/bin/sh
-env
 cd commit
 npm install
 npm run build
