@@ -1,2 +1,2 @@
 #!/bin/sh
-docker-machine start
+docker images
