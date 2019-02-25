@@ -78,30 +78,30 @@ jobs:
       subject: ./email-text/email-subject.txt
       body: ./email-text/email-body.txt
 
-  - task: update-ship-it-job-name
-    config:
-      platform: linux
-      image_resource:
-        type: docker-image
-        source:
-          repository: ubuntu
-      inputs:
-        - name: commit
-      outputs:
-        - name: email-text
-      run:
-        path: sh
-        args:
-        - -exc
-        - |
-          export LATEST_GOOD_VERSION=$(cat ./commit/version)
-          mv ./commit/fly_linux_amd64 ./fly
-          chmod +x ./fly
-          ./fly -t local login -c {{concourse-url}} -n {{concourse-team}} #-u {{concourse-username}} -p {{concourse-password}}
-          ./fly -t local sync
-          ./fly -t local get-pipeline -p {{concourse-pipeline-name}} > ./original-pipeline.yml
-          sed "s/Ship-version-.*/Ship-version-$LATEST_GOOD_VERSION/" ./original-pipeline.yml > ./updated-pipeline.yml
-          ./fly -t local set-pipeline -p {{concourse-pipeline-name}} -c ./updated-pipeline.yml -n
+  # - task: update-ship-it-job-name
+  #   config:
+  #     platform: linux
+  #     image_resource:
+  #       type: docker-image
+  #       source:
+  #         repository: ubuntu
+  #     inputs:
+  #       - name: commit
+  #     outputs:
+  #       - name: email-text
+  #     run:
+  #       path: sh
+  #       args:
+  #       - -exc
+  #       - |
+  #         export LATEST_GOOD_VERSION=$(cat ./commit/version)
+  #         mv ./commit/fly_linux_amd64 ./fly
+  #         chmod +x ./fly
+  #         ./fly -t local login -c {{concourse-url}} -n {{concourse-team}} #-u {{concourse-username}} -p {{concourse-password}}
+  #         ./fly -t local sync
+  #         ./fly -t local get-pipeline -p {{concourse-pipeline-name}} > ./original-pipeline.yml
+  #         sed "s/Ship-version-.*/Ship-version-$LATEST_GOOD_VERSION/" ./original-pipeline.yml > ./updated-pipeline.yml
+  #         ./fly -t local set-pipeline -p {{concourse-pipeline-name}} -c ./updated-pipeline.yml -n
 
 - name: Ship-version-2.6.0
   plan:
